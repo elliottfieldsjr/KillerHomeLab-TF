@@ -1,16 +1,12 @@
-name: Terraform Plan
+on: [push]
 
-on:
-  push:
-    branches: [ main ]
+name: AzureLoginSample
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest    
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
-    
-    - name: Login via Az module
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.TF_ARM_CLIENT_SECRET }}
-        enable-AzPSSession: true 
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
