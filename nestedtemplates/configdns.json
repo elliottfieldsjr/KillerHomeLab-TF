@@ -1,0 +1,64 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "computerName": {
+            "type": "string",
+            "metadata": {
+                "description": "Computer Name"
+            }
+        },
+        "domainName": {
+            "type": "string",
+          "metadata": {
+            "description": "The FQDN of the AD Domain created "
+          }
+        },
+        "ReverseLookup1": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of Reverse Lookup Zone 1 Network ID"
+            }
+        },
+        "dc1lastoctet": {
+            "type": "string",
+            "metadata": {
+                "description": "DC! Last IP Octet"
+            }
+        },        
+        "location": {
+            "type": "string",
+          "metadata": {
+            "description": "Region of Resources"
+          }
+        }               
+    },
+    "variables": {
+        "ModulesURL": "https://elliottf.blob.core.usgovcloudapi.net/terraform/DSC/1-Forest_1-DomainController_1-Workstation/CONFIGDNS.zip",
+        "ConfigurationFunction": "CONFIGDNS.ps1\\CONFIGDNS"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('computerName'),'/Microsoft.Powershell.DSC')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-03-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.19",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "ModulesUrl": "[variables('modulesUrl')]",
+                    "ConfigurationFunction": "[variables('configurationFunction')]",
+                        "Properties": {
+                            "computerName": "[parameters('computerName')]",
+                            "domainName": "[parameters('domainName')]",                                                        
+                            "ReverseLookup1": "[parameters('ReverseLookup1')]",
+                            "dc1lastoctet": "[parameters('dc1lastoctet')]"                            
+                        }
+                }
+            }
+        }
+    ]
+}

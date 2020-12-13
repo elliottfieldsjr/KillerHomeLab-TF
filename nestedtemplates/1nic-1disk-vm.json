@@ -1,0 +1,166 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "computerName": {
+        "type": "string",
+        "metadata": {
+            "description": "Computer Name"
+        }
+      },
+      "computerIP": {
+        "type": "string",
+        "metadata": {
+            "description": "Computer IP Address"
+        }
+      },
+      "Publisher": {
+        "type": "string",
+        "metadata": {
+            "description": "Image Publisher"
+        }
+      },
+      "Offer": {
+        "type": "string",
+        "metadata": {
+            "description": "Image Publisher Offer"
+        }
+      },
+      "OSVersion": {
+          "type": "string",
+          "metadata": {
+              "description": "OS Version"
+          }
+      },
+      "licenseType": {
+        "type": "string",
+        "metadata": {
+            "description": "License Type (Windows_Server or None)"
+        }
+      },      
+      "VMSize": {
+          "type": "string",
+          "metadata": {
+              "description": "VMSize"
+          }
+      },        
+      "vnetName": {
+          "type": "string",
+          "metadata": {
+              "description": "Existing VNET Name that contains the domain controller"
+          }
+      },
+      "subnetName": {
+          "type": "string",
+          "metadata": {
+              "description": "Existing subnet name that contains the domain controller"
+          }
+      },
+      "vnetPrefix": {
+          "type": "string",
+          "metadata": {
+              "description": "VNet IP Prefix"
+          }
+      },
+      "subnetPrefix": {
+          "type": "string",
+          "metadata": {
+              "description": "Subnet IP Prefix"
+          }
+      },
+      "adminUsername": {
+          "type": "string",
+          "metadata": {
+              "description": "The name of the Administrator of the new VM and Domain"
+          }
+      },
+      "adminPassword": {
+          "type": "securestring",
+        "metadata": {
+          "description": "The password for the Administrator account of the new VM and Domain"
+        }
+      },
+      "location": {
+          "type": "string",
+        "metadata": {
+          "description": "Region of Resources"
+        }
+      }
+  },
+  "variables": {
+      "storageAccountType": "Premium_LRS",
+      "VMName": "[parameters('computerName')]",
+      "imagePublisher": "[parameters('Publisher')]",
+      "imageOffer": "[parameters('Offer')]",
+      "imageSKU": "[parameters('OSVersion')]",
+      "subnetId": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]",
+      "virtualNetworkAddressRange": "[parameters('vnetPrefix')]",
+      "NicName": "[concat(parameters('computerName'),'-nic')]",
+      "NicIPAddress": "[parameters('computerIP')]"
+  },
+  "resources": [
+      {
+          "name": "[variables('NicName')]",
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2018-11-01",
+          "location": "[parameters('location')]",
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipconfig1",
+                      "properties": {
+                          "privateIPAllocationMethod": "Static",
+                          "privateIPAddress": "[variables('NicIPAddress')]",
+                          "subnet": {
+                              "id": "[variables('subnetId')]"
+                          }
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "[variables('VMName')]",
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2019-03-01",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkInterfaces',variables('NicName'))]"
+          ],
+          "properties": {
+              "licenseType": "[parameters('licenseType')]",
+              "hardwareProfile": {
+                  "vmSize": "[parameters('VMSize')]"
+              },
+              "osProfile": {
+                  "computerName": "[variables('VMName')]",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]"
+              },
+              "storageProfile": {
+                  "imageReference": {
+                      "publisher": "[variables('imagePublisher')]",
+                      "offer": "[variables('imageOffer')]",
+                      "sku": "[variables('imageSKU')]",
+                      "version": "latest"
+                  },
+                  "osDisk": {
+                      "name": "[concat(variables('VMName'),'_OSDisk')]",
+                      "caching": "ReadWrite",
+                      "createOption": "FromImage",
+                      "managedDisk": {
+                          "storageAccountType": "[variables('storageAccountType')]"
+                      }
+                  }
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('NicName'))]"
+                      }
+                  ]
+              }
+          }
+      }
+  ]
+}

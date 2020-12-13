@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "computerName": {
+            "type": "string",
+            "metadata": {
+                "description": "Computer Name"
+            }
+        },
+        "BaseDN": {
+            "type": "string",
+            "metadata": {
+                "description": "Base Domain Distiguished Name"
+            }
+        },
+        "location": {
+            "type": "string",
+          "metadata": {
+            "description": "Region of Resources"
+          }
+        }                        
+    },
+    "variables": {
+        "ModulesURL": "https://elliottf.blob.core.usgovcloudapi.net/terraform/DSC/1-Forest_1-DomainController_1-Workstation/CREATEOUS.zip",
+        "ConfigurationFunction": "CREATEOUS.ps1\\CREATEOUS"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('computerName'),'/Microsoft.Powershell.DSC')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-03-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.19",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "ModulesUrl": "[variables('modulesUrl')]",
+                    "ConfigurationFunction": "[variables('configurationFunction')]",
+                        "Properties": {
+                            "BaseDN": "[parameters('BaseDN')]"
+                        }
+                }
+            }
+        }
+    ]
+}
