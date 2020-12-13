@@ -18,6 +18,8 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.GELVADE_DEV }}      
 
     - name: Terraform Init
       run: terraform init   
