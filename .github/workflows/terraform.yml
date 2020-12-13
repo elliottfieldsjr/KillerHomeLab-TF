@@ -1,11 +1,15 @@
+# File: .github/workflows/terraform.yml
+
 on: [push]
 
 name: AzureLoginSample
 
 jobs:
+
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
 
     - uses: azure/login@v1
       with:
-        credentials: '${{ secrets.GELVADE_DEV }}'
+        creds: ${{ secrets.GELVADE_DEV }}
