@@ -13,3 +13,14 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.GELVADE_DEV }}
+
+    - uses: actions/checkout@main          
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Format
+      run: terraform fmt -check        
