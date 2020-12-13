@@ -15,9 +15,11 @@ jobs:
       ARM_TENANT_ID: 8a09f2d7-8415-4296-92b2-80bb4666c5fc
 
     steps:
-      - uses: azure/login@v1
-        with:
-          creds:  ${{secrets.TF_ARM_CLIENT_SECRET}}
+    - name: Login via Az module
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.TF_ARM_CLIENT_SECRET}}
+        enable-AzPSSession: true 
 
       - uses: actions/checkout@main          
 
