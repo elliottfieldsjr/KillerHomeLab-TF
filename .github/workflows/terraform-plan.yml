@@ -2,7 +2,7 @@ name: Terraform Plan
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   terraform:
@@ -15,7 +15,7 @@ jobs:
       ARM_TENANT_ID: 8a09f2d7-8415-4296-92b2-80bb4666c5fc
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@main
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
