@@ -12,7 +12,7 @@ variable adminUsername {
 }
 
 variable adminPassword {
-  default = ""
+  default = "1qaz@WSX3edcVFR$"
 }
 
 variable WindowsServerLicenseType {
