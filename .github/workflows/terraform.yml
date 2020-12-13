@@ -18,5 +18,5 @@ jobs:
     - name: Login via Az module
       uses: azure/login@v1
       with:
-        creds: ${{secrets.TF_ARM_CLIENT_SECRET}}
+        creds: ${{ARM_CLIENT_SECRET}}
         enable-AzPSSession: true 
