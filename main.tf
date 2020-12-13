@@ -3,15 +3,6 @@ provider "azurerm" {
   features {}
 }
 
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "elliottf-terraform"
-    storage_account_name = "saelliottf"
-    container_name       = "terraform-state"
-    key                  = "terraform.tfstate"
-  }
-}
-
 variable ResourceGroup1Name {
   default = "1-DomainController_1-Workstation"
 }
