@@ -6,7 +6,7 @@ on:
 
 jobs:
   terraform:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     env:
       ARM_CLIENT_ID: 0c30742a-1f1d-442b-b167-40b5abf845be
