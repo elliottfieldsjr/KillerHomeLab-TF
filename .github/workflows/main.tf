@@ -110,10 +110,6 @@ locals {
   WKOUPath = "OU=Windows 10,OU=Workstations,${local.BaseDN}" 
 }
 
-output "Public_IPAddress_Name" {
-  value = local.PublicIPAddressName
-}
-
 resource "azurerm_resource_group" "rg1" {
   name     = var.ResourceGroup1Name
   location = var.Location1
