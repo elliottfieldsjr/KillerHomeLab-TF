@@ -20,20 +20,3 @@ jobs:
       with:
         creds: ${{secrets.TF_ARM_CLIENT_SECRET}}
         enable-AzPSSession: true 
-
-      - uses: actions/checkout@main          
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Format
-        run: terraform fmt -check
-
-      - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
