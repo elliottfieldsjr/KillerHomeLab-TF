@@ -5,13 +5,6 @@ env:
   ResourceGroup1Name: "1-Forest_1-DomainController_1-Workstation"
   DevSubscription:  "fa46a605-f32d-4d9e-8826-329809cf7a78"
   Vnet1ID: "10.1"
-  Vnet1Name:  "${{env.NamingConvention}}-VNet1" 
-  VNet1Prefix:  "${{env.Vnet1ID}}.0.0/16"
-  Vnet1Subnet1Name:  "${{env.NamingConvention }}-VNet1-Subnet1"    
-  VNet1Subnet1Prefix:  "${{env.Vnet1ID}}.1.0/24"  
-  Vnet1Subnet2Name:  "${{env.NamingConvention }}-VNet1-Subnet2"    
-  VNet1Subnet2Prefix:  "${{env.Vnet1ID}}.2.0/24"  
-  BastionSubnetPrefix:  "${{env.Vnet1ID}}.253.0/24"
   Location1:   "EastUS"
 
 name: '1-Forest_1-DomainController_1-Workstation'
@@ -43,13 +36,13 @@ jobs:
         resourceGroupName: "${{env.ResourceGroup1Name}}"
         template: nestedtemplates/vnet.json   
         paramters:  
-          vnetName="${{env.Vnet1Name}}"
-          vnetprefix="${{env.Vnet1Prefix}}"
-          subnet1Name="${{env.Vnet1Subnet1Name}}"
-          subnet1Prefix="${{env.Vnet1Subnet1Prefix}}"
-          subnet2Name="${{env.Vnet1Subnet2Name}}"
-          subnet2Prefix="${{env.Vnet1Subnet1Prefix}}"  
-          BastionsubnetPrefix="${{env.BastionSubnetPrefix}}"  
+          vnetName="${{env.NamingConvention}}-VNet1"
+          vnetprefix="${{env.Vnet1ID}}.0.0/16"
+          subnet1Name="${{env.NamingConvention }}-VNet1-Subnet1"
+          subnet1Prefix="${{env.Vnet1ID}}.1.0/24"
+          subnet2Name="${{env.NamingConvention }}-VNet1-Subnet2"
+          subnet2Prefix="${{env.Vnet1ID}}.2.0/24"  
+          BastionsubnetPrefix="${{env.Vnet1ID}}.253.0/24"  
           location="${{env.Location1}}"  
           
     - name: Azure PowerShell Action
