@@ -35,7 +35,7 @@ jobs:
         subscriptionId: "${{env.DevSubScription}}"
         resourceGroupName: "${{env.ResourceGroup1Name}}"
         template: nestedtemplates/vnet.json   
-        paramters:  
+        parameters:  
           vnetName="${{env.NamingConvention}}-VNet1"
           vnetprefix="${{env.Vnet1ID}}.0.0/16"
           subnet1Name="${{env.NamingConvention }}-VNet1-Subnet1"
