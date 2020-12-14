@@ -40,5 +40,5 @@ jobs:
       continue-on-error:  true       
 
     - name: Terraform Apply
-      id: apply "newplan"
+      id: apply newplan
       run: terraform apply -auto-approve      
