@@ -1,0 +1,29 @@
+# File: .github/workflows/1-Forest_1-DomainController_1-Workstation.yml
+
+name: '1-Forest_1-DomainController_1-Workstation'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  infrastructure:
+    name: 'Deploy Infrastructure'
+    runs-on: windows-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v2 
+
+    - name: Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.GELVADE_DEV }}
+        enable-AzPSSession: true
+
+    - name: 'Deploy VNet1'
+    - uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: fa46a605-f32d-4d9e-8826-329809cf7a78
+        resourceGroupName: '1-Forest_1-DomainController_1-Workstation'
+        template: nestedtemplates/vnet.json        
