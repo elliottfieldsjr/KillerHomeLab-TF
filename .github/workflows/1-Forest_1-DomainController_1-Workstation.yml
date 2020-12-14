@@ -1,12 +1,5 @@
 # File: .github/workflows/1-Forest_1-DomainController_1-Workstation.yml
 
-name: '1-Forest_1-DomainController_1-Workstation'
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
 env:
   NamingConvention: "khl"
   ResourceGroup1Name: "1-Forest_1-DomainController_1-Workstation"
@@ -20,6 +13,13 @@ env:
   VNet1Subnet2Prefix:  "${{env.Vnet1ID}}.2.0/24"  
   BastionSubnetPrefix:  "${{env.Vnet1ID}}.253.0/24"
   Location1:   "EastUS"
+
+name: '1-Forest_1-DomainController_1-Workstation'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   infrastructure:
