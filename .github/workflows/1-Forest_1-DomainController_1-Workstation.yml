@@ -22,7 +22,7 @@ jobs:
         enable-AzPSSession: true
 
     - name: 'Deploy VNet1'
-    - uses: azure/arm-deploy@v1
+      uses: azure/arm-deploy@v1
       with:
         subscriptionId: fa46a605-f32d-4d9e-8826-329809cf7a78
         resourceGroupName: '1-Forest_1-DomainController_1-Workstation'
