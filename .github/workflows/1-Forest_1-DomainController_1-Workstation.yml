@@ -52,8 +52,8 @@ jobs:
           BastionsubnetPrefix="${{env.BastionSubnetPrefix}}"  
           location="${{env.Location1}}"  
           
-      - name: Azure PowerShell Action
-        uses: Azure/powershell@v1
-        with:
-          inlineScript: Get-AzVM -ResourceGroupName "${{env.ResourceGroup1Name}}"
-          azPSVersion: 3.1.0          
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: Get-AzVM -ResourceGroupName "${{env.ResourceGroup1Name}}"
+        azPSVersion: 3.1.0          
