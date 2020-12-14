@@ -16,12 +16,12 @@ jobs:
     - name: Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.clientSecret }}
+        creds: ${{ secrets.GELVADE_DEV }}
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        cli_config_credentials_token: ${{ secrets.clientSecret }}      
+        cli_config_credentials_token: ${{ secrets.GELVADE_DEV }}      
 
     - name: Terraform Format
       id: fmt
