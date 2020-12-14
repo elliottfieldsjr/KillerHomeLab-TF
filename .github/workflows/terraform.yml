@@ -13,10 +13,6 @@ jobs:
     - name: "Checkout"
       uses: actions/checkout@main      
 
-    - name: Terraform Format
-      id: fmt
-      run:  terraform fmt -check
-
     - name: "Terraform Init"
       uses: hashicorp/terraform-github-actions@master
       with:
