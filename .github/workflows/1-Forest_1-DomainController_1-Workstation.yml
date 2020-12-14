@@ -7,6 +7,20 @@ on:
       - main
   pull_request:
 
+env:
+  NamingConvention: "khl"
+  ResourceGroup1Name: "1-Forest_1-DomainController_1-Workstation"
+  DevSubscription:  "fa46a605-f32d-4d9e-8826-329809cf7a78"
+  Vnet1ID: "10.1"
+  Vnet1Name:  "${{env.NamingConvention}}-VNet1" 
+  VNet1Prefix:  "${{env.Vnet1ID}}.0.0/16"
+  Vnet1Subnet1Name:  "${{env.NamingConvention }}-VNet1-Subnet1"    
+  VNet1Subnet1Prefix:  "${{env.Vnet1ID}}.1.0/24"  
+  Vnet1Subnet2Name:  "${{env.NamingConvention }}-VNet1-Subnet2"    
+  VNet1Subnet2Prefix:  "${{env.Vnet1ID}}.2.0/24"  
+  BastionSubnetPrefix:  "${{env.Vnet1ID}}.253.0/24"
+  Location1:   "EastUS"
+
 jobs:
   infrastructure:
     name: 'Deploy Infrastructure'
@@ -24,6 +38,22 @@ jobs:
     - name: 'Deploy VNet1'
       uses: azure/arm-deploy@v1
       with:
-        subscriptionId: fa46a605-f32d-4d9e-8826-329809cf7a78
-        resourceGroupName: '1-Forest_1-DomainController_1-Workstation'
-        template: nestedtemplates/vnet.json        
+        deploymentname: 'DeployVNet1'
+        subscriptionId: "${{env.DevSubScription}}"
+        resourceGroupName: "${{env.ResourceGroup1Name}}"
+        template: nestedtemplates/vnet.json   
+        paramters:  
+          vnetName="${{env.Vnet1Name}}"
+          vnetprefix="${{env.Vnet1Prefix}}"
+          subnet1Name="${{env.Vnet1Subnet1Name}}"
+          subnet1Prefix="${{env.Vnet1Subnet1Prefix}}"
+          subnet2Name="${{env.Vnet1Subnet2Name}}"
+          subnet2Prefix="${{env.Vnet1Subnet1Prefix}}"  
+          BastionsubnetPrefix="${{env.BastionSubnetPrefix}}"  
+          location="${{env.Location1}}"  
+          
+      - name: Azure PowerShell Action
+        uses: Azure/powershell@v1
+        with:
+          inlineScript: Get-AzVM -ResourceGroupName "${{env.ResourceGroup1Name}}"
+          azPSVersion: 3.1.0          
