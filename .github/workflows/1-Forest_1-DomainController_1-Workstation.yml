@@ -28,7 +28,7 @@ jobs:
         creds: ${{ secrets.GELVADE_DEV }}
         enable-AzPSSession: true
 
-    - name: 'Deploy VNet'
+    - name: 'Deploy VNet1'
       uses: azure/arm-deploy@v1
       with:
         deploymentname: 'DeployVNet1'
