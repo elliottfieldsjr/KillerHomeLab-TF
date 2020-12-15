@@ -23,7 +23,7 @@ jobs:
       uses: actions/checkout@v2 
 
     - name: Login
-      uses: elliottfieldsjr/login@v1
+      uses: elliottfieldsjr/govlogin@main
       with:
         creds: ${{ secrets.GELVADE_DEV }}
         enable-AzPSSession: true
